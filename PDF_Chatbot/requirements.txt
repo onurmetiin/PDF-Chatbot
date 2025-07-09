@@ -1,0 +1,9 @@
+# -- GEREKLİ TÜM KÜTÜPHANELER --
+streamlit
+openai
+langchain
+langchain-community
+tiktoken
+faiss-cpu
+PyMuPDF
+python-dotenv
