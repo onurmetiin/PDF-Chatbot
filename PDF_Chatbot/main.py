@@ -13,13 +13,13 @@ from rag_pipeline import create_vector_db, ask_question  # RAG (Retrieval-Augmen
 # Streamlit uygulaması için sayfa yapılandırması
 st.set_page_config(page_title="📄 PDF ChatBot", layout="wide")
 st.title("📄 Chat with your PDF document!")  # Uygulama başlığı
-st.caption("Google Gemini destekli, belge tabanlı yapay zeka asistanı") # Uygulama açıklaması
+st.caption("PDF Document-based artificial intelligence assistant powered by Google Gemini") # Uygulama açıklaması
 
 
 # Kullanıcıdan PDF dosyası yüklemesi istenir
-uploaded_file = st.file_uploader("PDF dosyasını yükleyin", type="pdf")  # Kullanıcıdan PDF dosyası yüklemesi istenir
+uploaded_file = st.file_uploader("Upload your PDF file", type="pdf")  # Kullanıcıdan PDF dosyası yüklemesi istenir
 if uploaded_file is not None:
-    st.success("PDF dosyası yüklendi!")  # Dosya yüklendiğinde başarı mesajı gösterilir
+    st.success("Your PDF file uploaded!")  # Dosya yüklendiğinde başarı mesajı gösterilir
     
     
     # PDF dosyası yüklendiğinde metin çıkarma ve vektör veritabanı oluşturma işlemleri başlatılır
@@ -31,11 +31,11 @@ if uploaded_file is not None:
     
     
     # Kullanıcıdan bir soru girmesi istenir
-    question = st.text_input("📥 Bu PDF hakkında ne öğrenmek istiyorsunuz?")
+    question = st.text_input("📥 What do you want to learn about in this file?")
     if question:
-        with st.spinner("Döküman inceleniyor..."):
+        with st.spinner("Document processing..."):
             answer = ask_question(vector_db, question)
-            st.markdown(f"Yanıt: \n {answer}")  # Google Gemini LLM tarafından oluşturulan yanıt ekranda gösterilir        
+            st.markdown(f"Answer: \n\n {answer}")  # Google Gemini LLM tarafından oluşturulan yanıt ekranda gösterilir        
         
         
 # Uygulama çalıştırmak için terminalde şu komutu kullanın:
