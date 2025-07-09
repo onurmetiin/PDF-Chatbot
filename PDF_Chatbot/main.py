@@ -1,4 +1,4 @@
-# -- ANA UYGULAMA DOSYASI (STREAMLİT ARAYÜZÜ) --
+# -- A# Soruya en uygun yanıtı Google Gemini LLM ile oluşturmak ve ekranda göstermekA UYGULAMA DOSYASI (STREAMLİT ARAYÜZÜ) --
 
 # Kulanıcıdan PDF dosyasını almak
 # PDF'ten metin çıkarma ve parçalama işlemini başlatmak
@@ -13,7 +13,7 @@ from rag_pipeline import create_vector_db, ask_question  # RAG (Retrieval-Augmen
 # Streamlit uygulaması için sayfa yapılandırması
 st.set_page_config(page_title="📄 PDF ChatBot", layout="wide")
 st.title("📄 Chat with your PDF document!")  # Uygulama başlığı
-st.caption("OpenAI GPT destekli, belge tabanlı yapay zeka asistanı") # Uygulama açıklaması
+st.caption("Google Gemini destekli, belge tabanlı yapay zeka asistanı") # Uygulama açıklaması
 
 
 # Kullanıcıdan PDF dosyası yüklemesi istenir
@@ -35,7 +35,7 @@ if uploaded_file is not None:
     if question:
         with st.spinner("Döküman inceleniyor..."):
             answer = ask_question(vector_db, question)
-            st.markdown(f"Yanıt: \n {answer}")  # OpenAI LLM tarafından oluşturulan yanıt ekranda gösterilir        
+            st.markdown(f"Yanıt: \n {answer}")  # Google Gemini LLM tarafından oluşturulan yanıt ekranda gösterilir        
         
         
 # Uygulama çalıştırmak için terminalde şu komutu kullanın:

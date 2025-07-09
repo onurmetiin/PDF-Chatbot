@@ -1,9 +1,9 @@
 # -- GEREKLİ TÜM KÜTÜPHANELER --
 streamlit
-openai
+google-generativeai
 langchain
 langchain-community
-tiktoken
+langchain-google-genai
 faiss-cpu
 PyMuPDF
 python-dotenv
