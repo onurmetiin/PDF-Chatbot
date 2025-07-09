@@ -28,7 +28,7 @@ def create_vector_db(chunks):
     return vector_db
 
 
-def ask_question(vector_db, question, model_name="gpt-4"):
+def ask_question(vector_db, question, model_name="gpt-4", simularity_threshold=0.7):
     """
     Kullanıcı sorgusunu işler ve en yakın vektörleri bulur.
     
@@ -40,11 +40,21 @@ def ask_question(vector_db, question, model_name="gpt-4"):
     Returns:
         str: OpenAI LLM tarafından oluşturulan yanıt.
     """
-    # 1. Benzer metinleri bul (retrieval)
-    docs = vector_db.similarity_search(question)
+    # 1. Benzer metinleri bul (retrieval) OLD
+    #docs = vector_db.similarity_search(question) OLD
 
+    # 1. Bağlamla score'u yüksek benzer metinleri bul (retrieval)
+    results = vector_db.similarity_search_with_score(question, k=3) # k=3, en yakın 3 metin parçasını getirir.
+    
+    # Eğer benzerlik skoru belirtilen eşik değerinden düşükse, uygun bir yanıt bulunamadıysa
+    if not results or all(score < simularity_threshold for _, score in results):
+        return "Üzgünüm, sorunuza uygun bir yanıt bulamadım. Lütfen başka bir soru sorun."
+    
+    # simularity_threshold=0.7 score'una uyan verileri al
+    revelant_docs = [doc for doc, score in results if score >= simularity_threshold]
+    
     # 2. GPT modelini başlat
-    llm = ChatOpenAI(model_name=model_name)
+    llm = ChatOpenAI(model_name=model_name, tempreature = 0)
 
     # 3. Soru-cevap zinciri oluştur
     chain = load_qa_chain(llm, chain_type="stuff") 
@@ -54,4 +64,7 @@ def ask_question(vector_db, question, model_name="gpt-4"):
     # refine: İlk cevabı üretip diğer parçalarla geliştirir.
 
     # 4. En ilgili metin parçalarıyla yanıt üret
-    return chain.run(input_documents=docs, question=question)
+    return chain.run(
+        input_documents=revelant_docs, 
+        question=(question + "\n\nNot: Eğer yukarıdaki belgede bu soruya dair bilgi yoksa, lütfen uydurma bir yanıt vermeyin. Bunun yerine 'bu bilgi belgede bulunmuyor' gibi dürüst bir cevap verin.")
+        )
