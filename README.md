@@ -6,6 +6,7 @@ A simple and powerful **AI assistant** that lets you upload any **PDF document**
 
 🚀 Ask questions about contracts, books, academic notes, manuals — and get smart, context-aware answers in seconds.
 
+![Demo](demo.png)
 ---
 
 ## 🔍 Features
